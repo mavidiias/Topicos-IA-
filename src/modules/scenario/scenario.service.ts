@@ -1,26 +1,33 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { CreateScenarioDto } from './dto/create-scenario.dto';
 import { UpdateScenarioDto } from './dto/update-scenario.dto';
+import { CreateScenarioUseCase, DeleteScenarioUseCase, ListScenarioUseCase, FindOneScenarioUseCase } from './use-cases';
 
 @Injectable()
 export class ScenarioService {
-  create(createScenarioDto: CreateScenarioDto) {
-    return 'This action adds a new scenario';
+  constructor(private readonly createScenarioUseCase : CreateScenarioUseCase, 
+    private readonly listScenarioUseCase : ListScenarioUseCase,
+    private readonly deleteScenarioUseCase : DeleteScenarioUseCase,
+    private readonly findOneScenarioUseCase : FindOneScenarioUseCase
+  ) {}
+  create(CreateScenarioDto: CreateScenarioDto) {
+    return this.createScenarioUseCase.execute(CreateScenarioDto);
   }
 
-  findAll() {
-    return `This action returns all scenario`;
+  async findAll() {
+    return await this.listScenarioUseCase.execute();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} scenario`;
-  }
+  async findOne(id: string) {
+   return await this.findOneScenarioUseCase.execute(id);
+}
 
   update(id: number, updateScenarioDto: UpdateScenarioDto) {
     return `This action updates a #${id} scenario`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} scenario`;
+  async remove(id: string) {
+    return await this.deleteScenarioUseCase.execute(id);
   }
 }
