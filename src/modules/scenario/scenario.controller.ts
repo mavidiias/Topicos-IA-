@@ -26,7 +26,7 @@ export class ScenarioController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateScenarioDto: UpdateScenarioDto) {
-    return this.scenarioService.update(+id, updateScenarioDto);
+    return this.scenarioService.update(id, updateScenarioDto);
   }
 
   @Delete(':id')
